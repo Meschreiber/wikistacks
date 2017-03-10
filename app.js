@@ -20,13 +20,13 @@ app.engine('html', nunjucks.render);
 
 
 app.get('/', function(req, res){
-  res.render('index', locals)
+  res.render('index')
 })
 
 //body parser allows you to use the end of your url as a variable's value
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/', routes);
+//app.use('/', routes);//not sure we need this right now
 
 //express.static - looks in public folder (images, resume) without having to reload entire system...don't have to hard route for each file you want to show
 app.use(express.static(path.join(__dirname, 'public')));
