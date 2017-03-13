@@ -8,7 +8,7 @@ var Page = db.define('page', {
         type: Sequelize.STRING, allowNull: false
     },
     urlTitle: {
-        type: Sequelize.STRING, allowNull
+        type: Sequelize.STRING, allowNull: false
     },
     content: {
         type: Sequelize.TEXT, allowNull: false
@@ -19,7 +19,9 @@ var Page = db.define('page', {
     date: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
-    },
+    }
+},
+    {
     getterMethods: {
         route: function(){return '/wiki/'+ this.urlTitle}
     }

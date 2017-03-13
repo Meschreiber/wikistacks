@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var morgan = require('morgan');
 var nunjucks = require('nunjucks');
-var wikiRouter = require('./routes/wiki');  // should we add /wiki.js/ ?
+// var wikiRouter = require('./routes/wiki');  same as line 44?
 var fs = require('fs');
 var path = require('path');
 //what is NPM mime?
@@ -10,6 +10,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 // var socketio = require('socket.io');
 var models = require('./models');
+var chalk = require('chalk');
 
 // Q:Instead of npm install --save express, is there a way to get all of our required packages after declaring required packages in app.js?
 
@@ -17,9 +18,6 @@ var models = require('./models');
 nunjucks.configure('views', {noCache: true});
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
-
-
-
 app.get('/', function(req, res){
   res.render('index')
 })
@@ -27,6 +25,7 @@ app.get('/', function(req, res){
 //body parser allows you to use the end of your url as a variable's value
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 //app.use('/', routes);//not sure we need this right now
 
 //express.static - looks in public folder (images, resume) without having to reload entire system...don't have to hard route for each file you want to show
@@ -50,7 +49,7 @@ models.User.sync({})
     return models.Page.sync({})
 })
 .then(function () {
-    server.listen(3000, function () {
+    app.listen(3000, function () {
         console.log('Server is listening on port 3000!');  // Always put the listener last
     });
 })
