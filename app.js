@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var morgan = require('morgan');
 var nunjucks = require('nunjucks');
-var makesRouter = require('./routes');
+var wikiRouter = require('./routes/wiki');  // should we add /wiki.js/ ?
 var fs = require('fs');
 var path = require('path');
 //what is NPM mime?
@@ -41,11 +41,10 @@ app.use(function (req, res, next) {
 //logging middleware
 app.use(morgan('dev'))
 
+// hooks up our wikiRouter
+app.use('/wiki', require('./routes/wiki'));
 
-// Where your server and express app are being defined:
-
-// ... other stuff
-
+// this syncs our db in models folder
 models.User.sync({})
 .then(function () {
     return models.Page.sync({})
