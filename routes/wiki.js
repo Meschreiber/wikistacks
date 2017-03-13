@@ -5,7 +5,12 @@ var User = models.User;
 
 
 router.get('/', function(req, res, next) {
-    res.redirect('/');
+	  Page.findAll()
+	  .then(function(foundPages){
+			console.log('Foundpages: ', foundPages[0]);
+			res.render('index', {pages: foundPages});
+	  })
+	  .catch(next);
 });
 
 router.post('/', function(req, res, next) {
@@ -19,7 +24,6 @@ router.post('/', function(req, res, next) {
 		status: req.body.status
 	  });
 
-	
 	page.save().then(function(savedPage){
   res.redirect(savedPage.route); // route virtual FTW
 	}).catch(next);
@@ -30,10 +34,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/add', function(req, res, next) {
-    
-		
 		res.render('addpage');
-
 });
 
 router.get('/:urlTitle', function(req, res, next) {
@@ -44,8 +45,7 @@ router.get('/:urlTitle', function(req, res, next) {
 	    } 
 	  })
 	  .then(function(foundPage){
-			console.log();
-			res.render('wikipage', {title: foundPage.dataValues.title, content: foundPage.dataValues.content});
+			res.render('wikipage', {title: foundPage.title, content: foundPage.content});
 	  })
 	  .catch(next);
 });
