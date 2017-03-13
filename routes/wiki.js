@@ -1,8 +1,7 @@
 var router = require('express').Router();
 var models = require('../models');
 var Page = models.Page; 
-var User = models.User; 
-
+var User = models.User;
 
 router.get('/', function(req, res, next) {
 	  Page.findAll()
@@ -23,6 +22,9 @@ router.post('/', function(req, res, next) {
 		content: req.body.pagecontent,
 		status: req.body.status
 	  });
+		//check if user exists, if not, build a new user
+		
+		var user = User.build()
 
 	page.save().then(function(savedPage){
   res.redirect(savedPage.route); // route virtual FTW

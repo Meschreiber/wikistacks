@@ -44,9 +44,9 @@ app.use(morgan('dev'))
 app.use('/wiki', require('./routes/wiki'));
 
 // this syncs our db in models folder
-models.User.sync({})
+models.User.sync({force: true})
 .then(function () {
-    return models.Page.sync({})
+    return models.Page.sync({force: true})
 })
 .then(function () {
     app.listen(3000, function () {
