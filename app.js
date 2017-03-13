@@ -9,6 +9,7 @@ var path = require('path');
 // var mime = require('mime');
 var bodyParser = require('body-parser');
 // var socketio = require('socket.io');
+var models = require('./models');
 
 // Q:Instead of npm install --save express, is there a way to get all of our required packages after declaring required packages in app.js?
 
@@ -41,8 +42,17 @@ app.use(function (req, res, next) {
 app.use(morgan('dev'))
 
 
-// Always put the listener last
-app.listen(3000, function(){
-    console.log('server listening');
-})
+// Where your server and express app are being defined:
 
+// ... other stuff
+
+models.User.sync({})
+.then(function () {
+    return models.Page.sync({})
+})
+.then(function () {
+    server.listen(3000, function () {
+        console.log('Server is listening on port 3000!');  // Always put the listener last
+    });
+})
+.catch(console.error);

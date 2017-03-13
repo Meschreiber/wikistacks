@@ -4,6 +4,7 @@
   "description": "for wikistacks project",
   "main": "index.js",
   "scripts": {
+    // "start": "node"
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,6 +23,9 @@
     "fs": "0.0.1-security",
     "morgan": "^1.8.1",
     "nunjucks": "^3.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^6.1.4",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.30.2"
   }
 }
