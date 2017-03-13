@@ -19,16 +19,21 @@ router.post('/', function(req, res, next) {
 		status: req.body.status
 	  });
 
-	page.save();
-	// res.redirect('/');
-	res.json(page);
-
-    //res.json(req.body)
+	
+	page.save().then(function(savedPage){
+  res.redirect(savedPage.route); // route virtual FTW
+	}).catch(next);
+	
+		//res.json(page);
+	  //res.json(req.body)
     //res.send('got to POST /wiki/');
 });
 
 router.get('/add', function(req, res, next) {
-    res.render('addpage');
+    
+		
+		res.render('addpage');
+
 });
 
 router.get('/:urlTitle', function(req, res, next) {
@@ -39,10 +44,10 @@ router.get('/:urlTitle', function(req, res, next) {
 	    } 
 	  })
 	  .then(function(foundPage){
-	    res.json(foundPage);
+			console.log();
+			res.render('wikipage', {title: foundPage.dataValues.title, content: foundPage.dataValues.content});
 	  })
 	  .catch(next);
-
 });
 
 module.exports = router;
