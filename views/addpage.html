@@ -25,24 +25,31 @@
         <input name="title" type="text" class="form-control"/>
       </div>
     </div>
-    
-    
+       
     <div class="form-group">
       <label for="pagecontent" class="col-sm-2 control-label">Page Content</label>
       <div class="col-sm-10">
-        <input name="pagecontent" type="text" class="form-control"/>
+        <textarea name="pagecontent" type="text"></textarea>
       </div>
     </div>
     
-    <div class="form-group">
-      <label for="status" class="col-sm-2 control-label">Page Status</label>
+        <div class="form-group">
+      <label for="tags" class="col-sm-2 control-label">Page Tags</label>
       <div class="col-sm-10">
-        <input name="status" type="text" class="form-control"/>
+        <input name="tags" type="text" class="form-control"/>
       </div>
     </div>
 
+    <div>
+      <label for="status">Page Status</label>
+        <select name="status">
+          <option>open</option>
+          <option>closed</option>
+          </select>
+      </div>
+
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="status" class="btn btn-primary">submit</button>
+      <button type="submit" class="btn btn-primary">submit</button>
     </div>
   
   </form>

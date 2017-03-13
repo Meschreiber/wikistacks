@@ -3,46 +3,68 @@ var db = new Sequelize('postgres://localhost:5432/wikistack', {
 	logging: false
 });
 
-
 var Page = db.define('page', {
     title: {
-        type: Sequelize.STRING, allowNull: false
+        type: Sequelize.STRING, //Sequelize.STRING is a function can take an argument for the character limit
+        allowNull: false
     },
     urlTitle: {
-        type: Sequelize.STRING, allowNull: false
+        type: Sequelize.STRING, 
+        allowNull: false
     },
     content: {
-        type: Sequelize.TEXT, allowNull: false
+        type: Sequelize.TEXT, //(no size constraint as in STRING)
+        allowNull: false
     },
     status: {
-        type: Sequelize.ENUM('open', 'closed')
+        type: Sequelize.ENUM('open', 'closed') // built in validation
     },
     date: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
-    }
-},
-    {
-    getterMethods: {
-        route: function(){return '/wiki/'+ this.urlTitle}
     },
-
-
+    tags: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+        set: function(value) {
+            var arrayOfTags;
+            if(typeof value === 'string'){
+                arrayOfTags = value.split(',').map(function(s){
+                    return s.trim();
+                });
+                this.setDataValue('tags, arrayOfTags');
+            } else {
+                this.setDataValue('tags', value);
+            }   
+        }
+    }
+}, {
+    hooks: {
+        beforeValidate: function (page){
+            page.urlTitle = generateUrlTitle(page.title);
+            }
+        },
+    getterMethods: {
+        route: function(){
+            return '/wiki/'+ this.urlTitle;
+        } // this is called a virtual
+    }    
 });
 
-Page.hook('beforeValidate', function(page, options){
-	console.log(page.title);
-	page.urlTitle = generateUrlTitle(page.title);
-	console.log(page.urlTitle);
-}) //options?? what is this for?
+// Page.hook('beforeValidate', function(page, options){
+// 	page.urlTitle = generateUrlTitle(page.title);
+// }) //options?? what is this for?
+
 
 var User = db.define('user', {
     name: {
-        type: Sequelize.STRING, allowNull: false
+        type: Sequelize.STRING 
+        //allowNull: false
     },
     email: {
-        type: Sequelize.STRING, allowNull: false,
-        validate: {isEmail: true}
+        type: Sequelize.STRING, 
+        allowNull: false,
+        unique: true,
+        validate: {isEmail: true} //SEQUELIZE checks that regex actually checks this
     },    
 });
 
